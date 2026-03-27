@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EyeMax | Cristales a Domicilio</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        :root { --blue: #007BFF; --dark: #002366; --white: #FFFFFF; }
+        body { font-family: 'Segoe UI', sans-serif; background-color: var(--white); margin: 0; color: #333; }
+        .container { max-width: 500px; margin: auto; padding: 20px; }
+        header { text-align: center; padding: 40px 0; }
+        h1 { color: var(--dark); letter-spacing: 2px; }
+        
+        /* Deslizador de Tratamientos */
+        .slider { display: flex; overflow-x: auto; gap: 15px; padding: 20px 0; scroll-snap-type: x mandatory; }
+        .card { min-width: 80%; background: white; padding: 20px; border-radius: 15px; 
+                box-shadow: 0 5px 15px rgba(0,0,0,0.05); scroll-snap-align: center; border: 1px solid #f0f0f0; }
+        .card i { color: var(--blue); margin-bottom: 10px; }
+        
+        /* Carga de Archivo */
+        .drop-zone { border: 2px dashed #ccc; border-radius: 15px; padding: 30px; text-align: center; margin: 20px 0; }
+        #vista-previa { width: 100%; border-radius: 10px; margin-top: 10px; display: none; }
+        
+        select, button { width: 100%; padding: 15px; border-radius: 10px; border: 1px solid #ddd; margin: 10px 0; font-size: 16px; }
+        button { background: var(--blue); color: white; border: none; font-weight: bold; cursor: pointer; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>EYEMAX</h1>
+            <p>Laboratorio Óptico Digital</p>
+        </header>
+
+        <div class="slider">
+            <div class="card"><i class="fas fa-certificate fa-2x"></i><h3>Antireflejo</h3><p>Elimina brillos molestos y mejora la estética de tu mirada.</p></div>
+            <div class="card"><i class="fas fa-laptop-code fa-2x"></i><h3>Blue Block</h3><p>Protección esencial frente a celulares y computadoras.</p></div>
+            <div class="card"><i class="fas fa-sun fa-2x"></i><h3>Fotocromático</h3><p>Se oscurece al 70% bajo el sol. Confort UV total.</p></div>
+        </div>
+
+        <select id="tratamiento">
+            <option value="Antireflejo">Antireflejo</option>
+            <option value="Blue Block">Blue Block</option>
+            <option value="Fotocromático">Fotocromático</option>
+            <option value="Fotocromático con Blue Block">Combo Total</option>
+        </select>
+
+        <div class="drop-zone" onclick="document.getElementById('fotoFormula').click()">
+            <p>Toca para subir la foto de tu fórmula 📄</p>
+            <input type="file" id="fotoFormula" hidden accept="image/*">
+            <img id="vista-previa">
+        </div>
+
+        <button onclick="enviar()">Cotizar por WhatsApp 💬</button>
+    </div>
+
+    <script>
+        const input = document.getElementById('fotoFormula');
+        input.addEventListener('change', function() {
+            const reader = new FileReader();
+            reader.onload = e => { 
+                document.getElementById('vista-previa').src = e.target.result;
+                document.getElementById('vista-previa').style.display = 'block';
+            };
+            reader.readAsDataURL(this.files[0]);
+        });
+
+        function enviar() {
+            const t = document.getElementById('tratamiento').value;
+            const msg = encodeURIComponent(`Hola EyeMax, solicito cotización para cristales de Visión Sencilla con ${t}. Adjunto mi fórmula.`);
+            window.open(`https://wa.me/584242313449?text=${msg}`);
+        }
+    </script>
+</body>
+</html>
